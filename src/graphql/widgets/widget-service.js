@@ -15,8 +15,6 @@ function WidgetService({ dynamodb }) {
   }
 
   async function saveWidget({ widget, widgetTableName }) {
-    console.log({ widget });
-
     const params = {
       TableName: widgetTableName,
       Item: {
@@ -27,19 +25,17 @@ function WidgetService({ dynamodb }) {
     try {
       await dynamodb.put(params).promise();
     } catch (error) {
-      return {
-        success: false
-      };
+      throw error;
     }
     return {
       success: true
     };
   }
 
-  return {
+  return Object.freeze({
     getWidget,
     saveWidget
-  };
+  });
 }
 
 export default WidgetService;

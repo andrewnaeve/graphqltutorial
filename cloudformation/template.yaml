@@ -17,10 +17,10 @@ Globals:
       AllowOrigin: "'*'"
 
 Resources:
-  CmsApiGateway:
+  GraphQLApiGateway:
     Type: AWS::Serverless::Api
     Properties:
-      Name: CmsApiGateway
+      Name: GraphQLApiGateway
       StageName: !Ref Stage
 
   ApiGatewayExecutionRole:
@@ -46,7 +46,7 @@ Resources:
                   - lambda:InvokeFunction
                 Resource: '*'
 
-  CmsLambda:
+  GQLLambda:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../build/api
@@ -63,7 +63,7 @@ Resources:
           Properties:
             Path: /graphql
             Method: any
-            RestApiId: !Ref CmsApiGateway
+            RestApiId: !Ref GraphQLApiGateway
 
   WidgetTable:
     Type: AWS::DynamoDB::Table
@@ -119,7 +119,7 @@ Resources:
             Resource: '*'
 
 Outputs:
-  CmsApiGateway:
-    Value: !Ref CmsApiGateway
+  GraphQLApiGateway:
+    Value: !Ref GraphQLApiGateway
     Export:
-      Name: CmsApiGateway
+      Name: GraphQLApiGateway

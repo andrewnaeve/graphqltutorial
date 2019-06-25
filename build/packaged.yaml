@@ -14,10 +14,10 @@ Globals:
       AllowHeaders: '''*'''
       AllowOrigin: '''*'''
 Resources:
-  CmsApiGateway:
+  GraphQLApiGateway:
     Type: AWS::Serverless::Api
     Properties:
-      Name: CmsApiGateway
+      Name: GraphQLApiGateway
       StageName:
         Ref: Stage
   ApiGatewayExecutionRole:
@@ -42,10 +42,10 @@ Resources:
             - lambda:InvokeAsync
             - lambda:InvokeFunction
             Resource: '*'
-  CmsLambda:
+  GQLLambda:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://graphql-tutorial-artifacts-dev/e3580007b6229f9e9e91a0ea6860af5c
+      CodeUri: s3://graphql-tutorial-artifacts-dev/b070eddfaa5bb3fe5955ac4721c4c0c8
       Handler: index.handler
       Runtime: nodejs10.x
       Role:
@@ -64,7 +64,7 @@ Resources:
             Path: /graphql
             Method: any
             RestApiId:
-              Ref: CmsApiGateway
+              Ref: GraphQLApiGateway
   WidgetTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -119,8 +119,8 @@ Resources:
           - cloudwatch:*
           Resource: '*'
 Outputs:
-  CmsApiGateway:
+  GraphQLApiGateway:
     Value:
-      Ref: CmsApiGateway
+      Ref: GraphQLApiGateway
     Export:
-      Name: CmsApiGateway
+      Name: GraphQLApiGateway

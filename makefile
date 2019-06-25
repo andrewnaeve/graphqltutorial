@@ -8,16 +8,15 @@ AWS_REGION ?= us-west-2
 FILE_TEMPLATE = ./cloudformation/template.yaml
 FILE_PACKAGE = ./build/packaged.yaml
 
-clean:
-	rm -rf ./.aws-sam/build && mkdir ./.aws-sam/build
-
-
-build-container:
-	sam build --use-container
-
 configure:
 	aws s3 mb s3://$(AWS_BUCKET_NAME) \
 		--region $(AWS_REGION)
+
+clean:
+	rm -rf ./.aws-sam/build && mkdir ./.aws-sam/build
+
+build-container:
+	sam build --use-container
 
 local:
 	sam local start-api -t ./cloudformation/template.yaml -p 8000
@@ -58,8 +57,3 @@ rm-all-images:
 
 nuke:
 	make stop && make rm-all && make rm-all-images
-
-rebuild:
-	make down && make build
-
-.PHONY: clean install build configure package deploy output pd
