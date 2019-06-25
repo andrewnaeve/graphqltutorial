@@ -103,14 +103,7 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
-              - dynamodb:DeleteItem
-              - dynamodb:PutItem
-              - dynamodb:GetItem
-              - dynamodb:BatchGetItem
-              - dynamodb:BatchWriteItem
-              - dynamodb:Query
-              - dynamodb:UpdateItem
-              - dynamodb:GetRecords
+              - dynamodb:*
             Resource: !GetAtt WidgetTable.Arn
           - Effect: Allow
             Action:
