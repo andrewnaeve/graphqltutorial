@@ -57,3 +57,5 @@ rm-all-images:
 
 nuke:
 	make stop && make rm-all && make rm-all-images
+
+.PHONY: build
