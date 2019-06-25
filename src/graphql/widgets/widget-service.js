@@ -1,17 +1,22 @@
 import { v4 as keygen } from 'uuid';
 
 function WidgetService({ dynamodb }) {
-  function getWidget({ id, widgetTableName }) {
+  async function getWidget({ widgetId, widgetTableName }) {
     const params = {
       TableName: widgetTableName,
       Key: {
-        HashKey: id
+        widget_id: widgetId
       }
     };
-    return dynamodb.get(params);
+
+    const { Item } = await dynamodb.get(params).promise();
+
+    return Item;
   }
 
   async function saveWidget({ widget, widgetTableName }) {
+    console.log({ widget });
+
     const params = {
       TableName: widgetTableName,
       Item: {
@@ -20,11 +25,15 @@ function WidgetService({ dynamodb }) {
       }
     };
     try {
-      dynamodb.put(params).promise();
+      await dynamodb.put(params).promise();
     } catch (error) {
-      return false;
+      return {
+        success: false
+      };
     }
-    return true;
+    return {
+      success: true
+    };
   }
 
   return {

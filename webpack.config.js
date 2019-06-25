@@ -29,7 +29,7 @@ module.exports = env => {
                   '@babel/preset-env',
                   {
                     targets: {
-                      node: 'current',
+                      node: '10.15.3',
                       esmodules: true
                     }
                   }

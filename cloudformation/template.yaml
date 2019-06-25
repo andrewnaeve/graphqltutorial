@@ -112,6 +112,11 @@ Resources:
               - dynamodb:UpdateItem
               - dynamodb:GetRecords
             Resource: !GetAtt WidgetTable.Arn
+          - Effect: Allow
+            Action:
+              - logs:*
+              - cloudwatch:*
+            Resource: '*'
 
 Outputs:
   CmsApiGateway:

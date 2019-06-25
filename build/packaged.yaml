@@ -45,7 +45,7 @@ Resources:
   CmsLambda:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://graphql-tutorial-artifacts-dev/dd80b565809f0f90c34f6b12e2e8fe45
+      CodeUri: s3://graphql-tutorial-artifacts-dev/e3580007b6229f9e9e91a0ea6860af5c
       Handler: index.handler
       Runtime: nodejs10.x
       Role:
@@ -113,6 +113,11 @@ Resources:
             Fn::GetAtt:
             - WidgetTable
             - Arn
+        - Effect: Allow
+          Action:
+          - logs:*
+          - cloudwatch:*
+          Resource: '*'
 Outputs:
   CmsApiGateway:
     Value:

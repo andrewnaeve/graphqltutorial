@@ -4,10 +4,11 @@ const widgetResolvers = ({ dynamodb }) => {
   const service = WidgetService({ dynamodb });
   return {
     Query: {
-      getWidget: (_, id, context) => service.listWidgets({ id, ...context })
+      getWidget: (_, { widget_id: widgetId }, context) =>
+        service.getWidget({ widgetId, ...context })
     },
     Mutation: {
-      saveWidget: (_, widget, context) =>
+      saveWidget: (_, { widget }, context) =>
         service.saveWidget({ widget, ...context })
     }
   };

@@ -2,15 +2,24 @@ import { gql } from 'apollo-server-lambda';
 
 const WidgetTypes = gql`
   input WidgetInput {
-    widget_id: String!
-    name: String
-    type: String
+    name: String!
+    type: String!
+    foo: String
+    bar: Boolean
+    bat: Int
   }
 
   type WidgetOutput {
     widget_id: String!
-    name: String
-    type: String
+    name: String!
+    type: String!
+    foo: String
+    bar: Boolean
+    bat: Int
+  }
+
+  type SaveWidgetOutput {
+    success: Boolean
   }
 
   extend type Query {
@@ -18,7 +27,7 @@ const WidgetTypes = gql`
   }
 
   extend type Mutation {
-    saveWidget(widget: WidgetInput): Boolean
+    saveWidget(widget: WidgetInput): SaveWidgetOutput
   }
 `;
 
