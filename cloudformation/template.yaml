@@ -49,7 +49,7 @@ Resources:
   CmsLambda:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../build/cms
+      CodeUri: ../build/api
       Handler: index.handler
       Runtime: nodejs10.x
       Role: !GetAtt LambdaRole.Arn
@@ -80,8 +80,6 @@ Resources:
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      DependsOn:
-        - WidgetTable
       RoleName: lambda-role
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole

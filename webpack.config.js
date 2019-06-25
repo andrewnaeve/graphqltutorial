@@ -10,7 +10,7 @@ module.exports = env => {
     mode: NODE_ENV,
     watch: isDev,
     output: {
-      path: path.resolve(__dirname, 'build/api'),
+      path: path.resolve(__dirname, './build/api'),
       filename: 'index.js',
       library: 'index',
       libraryTarget: 'commonjs2'

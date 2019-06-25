@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: GraphQL Api
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+Globals:
+  Function:
+    Timeout: 5
+  Api:
+    Cors:
+      AllowMethods: '''*'''
+      AllowHeaders: '''*'''
+      AllowOrigin: '''*'''
+Resources:
+  CmsApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: CmsApiGateway
+      StageName:
+        Ref: Stage
+  ApiGatewayExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - apigateway.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName: InvokeAuthorizerFunction
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - lambda:InvokeAsync
+            - lambda:InvokeFunction
+            Resource: '*'
+  CmsLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://graphql-tutorial-artifacts-dev/b15daf923e6f34bf4eccb7df579ee0cf
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Role:
+        Fn::GetAtt:
+        - LambdaRole
+        - Arn
+      MemorySize: 1024
+      Environment:
+        Variables:
+          WIDGET_TABLE_NAME:
+            Ref: WidgetTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /graphql
+            Method: any
+            RestApiId:
+              Ref: CmsApiGateway
+  WidgetTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: WidgetTable
+      AttributeDefinitions:
+      - AttributeName: widget_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: widget_id
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: lambda-role
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Action:
+          - sts:AssumeRole
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+  LambdaDynamodbPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: General Lambda/Dynamodb Policy
+      Path: /
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - dynamodb:DeleteItem
+          - dynamodb:PutItem
+          - dynamodb:GetItem
+          - dynamodb:BatchGetItem
+          - dynamodb:BatchWriteItem
+          - dynamodb:Query
+          - dynamodb:UpdateItem
+          - dynamodb:GetRecords
+          Resource:
+            Fn::GetAtt:
+            - WidgetTable
+            - Arn
+Outputs:
+  CmsApiGateway:
+    Value:
+      Ref: CmsApiGateway
+    Export:
+      Name: CmsApiGateway
