@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack --env.NODE_ENV=development",
+    "watch": "webpack --env.NODE_ENV=development",
     "build": "webpack --env.NODE_ENV=production"
   },
   "dependencies": {

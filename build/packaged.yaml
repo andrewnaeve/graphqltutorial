@@ -45,7 +45,7 @@ Resources:
   CmsLambda:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://graphql-tutorial-artifacts-dev/b15daf923e6f34bf4eccb7df579ee0cf
+      CodeUri: s3://graphql-tutorial-artifacts-dev/dd80b565809f0f90c34f6b12e2e8fe45
       Handler: index.handler
       Runtime: nodejs10.x
       Role:

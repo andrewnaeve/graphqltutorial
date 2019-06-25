@@ -1,3 +1,3 @@
 export default {
-  widgetTableName: 'WidgetTable'
+  widgetTableName: process.env.WIDGET_TABLE_NAME
 };

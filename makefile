@@ -17,14 +17,20 @@ build-container:
 
 configure:
 	aws s3 mb s3://$(AWS_BUCKET_NAME) \
-		--region $(AWS_REGION) 
+		--region $(AWS_REGION)
 
 local:
-	sam local start-api -p 8000
+	sam local start-api -t ./cloudformation/template.yaml -p 8000
+
+build:
+	npm run build
+
+watch:
+	npm run watch
 
 pd:
 	make package && make deploy
-	
+
 package:
 	aws cloudformation package \
 		--template-file $(FILE_TEMPLATE) \
@@ -40,8 +46,6 @@ deploy:
 	--parameter-overrides \
 		ProjectName=$(PROJECT_NAME) \
 		ENV=$(ENV)
-		DdbUser=$(DB_USER)
-		DdbPassword=$(DB_PASSWORD)
 
 stop:
 	docker stop $(shell docker ps -aq)
