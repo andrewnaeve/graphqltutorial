@@ -1,7 +1,7 @@
 {
-  "name": "seedlings",
+  "name": "graphql",
   "version": "0.0.1",
-  "description": "seedlings lambdas",
+  "description": "graphql",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
