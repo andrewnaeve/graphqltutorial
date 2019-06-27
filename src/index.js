@@ -3,7 +3,13 @@ import schema from './graphql/schema';
 import tables from './config/tables';
 
 const server = new ApolloServer({
-  schema
+  schema,
+  context: ({ context }) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+    return {
+      ...tables
+    };
+  }
 });
 
 export const handler = server.createHandler({
